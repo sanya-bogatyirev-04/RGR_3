@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CPM Граф: Ранее/позднее время, критический путь</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>Анализ сетевого графика (CPM)</h1>
+        <p class="subtitle">Ввод вершин и дуг с весами → граф, таблица, критический путь</p>
+    </header>
+
+    <main class="layout">
+        <section class="panel inputs">
+            <h2>Ввод данных</h2>
+            <div class="forms">
+                <form id="node-form" class="card" autocomplete="off">
+                    <h3>Добавить вершину</h3>
+                    <label>
+                        Наименование вершины
+                        <input type="text" id="node-name" placeholder="Напр. A" required>
+                    </label>
+                    <button type="submit" class="btn">Добавить вершину</button>
+                </form>
+
+                <form id="edge-form" class="card" autocomplete="off">
+                    <h3>Добавить дугу (путь)</h3>
+                    <label>
+                        Из вершины
+                        <input type="text" id="edge-from" placeholder="Напр. A" required>
+                    </label>
+                    <label>
+                        В вершину
+                        <input type="text" id="edge-to" placeholder="Напр. B" required>
+                    </label>
+                    <label>
+                        Вес пути (длительность)
+                        <input type="number" id="edge-weight" placeholder="Напр. 5" min="0" step="0.001" required>
+                    </label>
+                    <button type="submit" class="btn">Добавить дугу</button>
+                </form>
+            </div>
+
+            <div class="actions">
+                <button id="btn-compute" class="btn primary">Рассчитать</button>
+                <button id="btn-sample" class="btn">Загрузить пример</button>
+                <button id="btn-clear" class="btn danger">Очистить всё</button>
+            </div>
+
+            <div class="card current-data">
+                <h3>Текущие данные</h3>
+                <div class="data-columns">
+                    <div>
+                        <h4>Вершины</h4>
+                        <ul id="nodes-list"></ul>
+                    </div>
+                    <div>
+                        <h4>Дуги (из → в, вес)</h4>
+                        <ul id="edges-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel graph-panel">
+            <h2>Граф</h2>
+            <div class="graph-container">
+                <svg id="graph" xmlns="http://www.w3.org/2000/svg"></svg>
+            </div>
+            <div id="summary" class="summary"></div>
+        </section>
+
+        <section class="panel table-panel">
+            <h2>Таблица результатов (по дугам)</h2>
+            <div class="table-wrapper">
+                <table id="results-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Из</th>
+                            <th>В</th>
+                            <th>Вес</th>
+                            <th>Ран. начало (ES)</th>
+                            <th>Ран. оконч. (EF)</th>
+                            <th>Поздн. начало (LS)</th>
+                            <th>Поздн. оконч. (LF)</th>
+                            <th>Резерв (Slack)</th>
+                            <th>Критич.</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <h2>Время событий (по вершинам)</h2>
+            <div class="table-wrapper">
+                <table id="nodes-table">
+                    <thead>
+                        <tr>
+                            <th>Вершина</th>
+                            <th>Раннее время (E)</th>
+                            <th>Позднее время (L)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <span>Тема: строгая, серо-чёрная. CPM для ориентированного ацикличного графа.</span>
+    </footer>
+
+    <script src="script.js"></script>
+    <noscript>Для работы приложения требуется JavaScript.</noscript>
+    
+    <!-- Примечание: ES/EF/LS/LF отображаются на дугах; вершины показывают E/L (события). -->
+</body>
+</html>
+
+
+
